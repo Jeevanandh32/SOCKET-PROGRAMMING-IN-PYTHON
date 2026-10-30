@@ -1,59 +1,53 @@
-### SOCKET PROGRAMMING IN PYTHON
+# TCP Socket Programming in Python
 
-This repository contains a project showcasing socket programming in Python, focusing on building efficient client-server communication. The project is designed to demonstrate key concepts in networking, such as creating sockets, establishing connections, sending and receiving data, and closing sockets.
+A small client-server exercise using Python's standard `socket` and `threading` modules. The server sends arithmetic questions, the client calculates answers, and the server returns a completion flag.
 
-### Features
-- Client-Server Communication: Facilitates data exchange between a client and server using TCP/IP protocol.
-- Multi-Threaded Server: Handles multiple client connections simultaneously, ensuring scalability.
-- Customizable: Easily adaptable to different networking scenarios by modifying parameters such as IP address, port, and data payload.
-- Error Handling: Includes robust error-handling mechanisms for unexpected disconnections or invalid inputs.
+## Implemented behavior
 
-### Prerequisites
-- Python 3.x installed on your system.
-- Basic understanding of networking concepts, including TCP/IP and sockets.
+- TCP connections on `127.0.0.1:8888`.
+- A separate thread for each accepted client connection.
+- A simple `HELLO`, `MATH`, `ANSWER`, and `DONE` message exchange.
+- Client-side connection and timeout handling.
 
-### Getting Started
+This is a local learning exercise. Concurrent-client capacity and throughput have not been benchmarked.
 
-### Clone the Repository
-```
+## Requirements
+
+Python 3; no third-party packages are required.
+
+## Setup
+
+```bash
 git clone https://github.com/Jeevanandh32/SOCKET-PROGRAMMING-IN-PYTHON.git
 cd SOCKET-PROGRAMMING-IN-PYTHON
 ```
 
-### Install Dependencies
-No additional dependencies are required beyond Python's built-in libraries.
+## Run
 
-### Run the Server
-```
-python server.py
-```
+In one terminal, start the server:
 
-### Run the Client
-In a new terminal window:
-```
-python client.py
+```bash
+python3 Server.py
 ```
 
-You can run multiple clients to test the server's multi-threading capabilities.
+In another terminal, start the client and enter a username when prompted:
 
-### How It Works
-1. The server creates a socket, binds it to a specific IP and port, and listens for incoming connections.
-2. Clients create sockets to connect to the server and initiate communication.
-3. Both client and server exchange messages, demonstrating real-time data transfer over the network.
-4. The connection is gracefully terminated once the communication is complete.
+```bash
+python3 Client.py
+```
 
-### Example Use Case
-- Real-time messaging applications.
-- File transfer systems.
-- Basic simulations of client-server architectures.
+The filenames are case-sensitive on Linux. Both scripts currently use loopback, so run them on the same machine. Additional client terminals exercise the server's per-connection threading.
 
-### Files
-- server.py: Contains the code to run the server.
-- client.py: Contains the code to run the client.
-- README.md: Documentation for the project.
+## Files
 
-### Contributions
-Feel free to fork this repository and submit pull requests for any improvements or additional features.
+| File | Purpose |
+|---|---|
+| `Server.py` | Accept connections, send questions, and issue a completion flag |
+| `Client.py` | Introduce the client, solve arithmetic questions, and display the flag |
 
-### License
-This project is licensed under the MIT License.
+## Current limits
+
+- The server records submitted answers but does not validate their correctness.
+- Division uses integer division.
+- Messages rely on individual `recv()` calls; explicit buffering and message framing are future improvements.
+- Malformed-input handling and server-side disconnect recovery are incomplete. The current code does not establish production scalability or robustness.
